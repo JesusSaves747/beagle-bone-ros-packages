@@ -1,0 +1,2 @@
+usb_cam
+-DCATKIN_DEVEL_PREFIX=/home/savio/Documents/ANRA_Projects/beagle-bone-ws/devel -DCMAKE_INSTALL_PREFIX=/home/savio/Documents/ANRA_Projects/beagle-bone-ws/install -G Unix Makefiles
