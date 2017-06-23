@@ -3,6 +3,7 @@ import numpy as np
 import cv2
 import rospy
 import roslib
+import time
 roslib.load_manifest('klt_tracker')
 
 # Import cv_bridge stuff:
@@ -18,11 +19,12 @@ def img_publisher():
 
     global bridge
 
-    # Create a publisher to the topic: 
+    # Create a publisher to the topic:
     pub_cam = rospy.Publisher('/ANRA/usb_cam/image_raw',Image , queue_size=10 )
 
-    # Open up a video capture object: 
+    # Open up a video capture object:
     camera = cv2.VideoCapture(1)   # I think 0 is the Laptop webcam and 1 is the USB cam
+
 
 
 
@@ -33,16 +35,26 @@ def img_publisher():
     while not rospy.is_shutdown():
 
         # grab the current frame
+        readStart = time.time()
         (grabbed, frame) = camera.read()
+        readEnd = time.time()
 
-        # If the frame is grabbed then convert it to ROS Image Msg and publish: 
+        print(" Frame Read took: ", readEnd -readStart)
+
+
+        # If the frame is grabbed then convert it to ROS Image Msg and publish:
         if grabbed:
 
-            # resize the frame to 800 by 800: 
-            frame = imutils.resize(frame, width=800, height =800)
+            # resize the frame to 800 by 800:
+            # frame = imutils.resize(frame, width=800, height =800)
 
             try:
+                pubStart = time.time()
                 pub_cam.publish(bridge.cv2_to_imgmsg(frame, "bgr8"))
+                pubEnd = time.time()
+
+                print("Publishing too:", pubEnd - pubStart)
+
             except CvBridgeError as e:
                 print(e)
 
@@ -63,6 +75,3 @@ if __name__ == '__main__':
 
     except rospy.ROSInterruptException:
         pass
-
-
-
