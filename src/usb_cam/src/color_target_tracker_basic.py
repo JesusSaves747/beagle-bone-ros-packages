@@ -232,11 +232,11 @@ class Target_Tracker():
 
 
 
-                # Convert image back to ros_image_msg and publish of image_proc topic
-                try:
-                    self.pub_imag.publish(bridge.cv2_to_imgmsg(frame, "bgr8"))
-                except CvBridgeError as e:
-                    print(e)
+                # # Convert image back to ros_image_msg and publish of image_proc topic
+                # try:
+                #     self.pub_imag.publish(bridge.cv2_to_imgmsg(frame, "bgr8"))
+                # except CvBridgeError as e:
+                #     print(e)
 
 
 
