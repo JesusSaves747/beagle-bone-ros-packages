@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-## Flowchart: 
-# 1. Create a class to measure FPS: 
-# 2. Create a class to start a threaded VideoCapture object: Use the Thread module from python: 
+## Flowchart:
+# 1. Create a class to measure FPS:
+# 2. Create a class to start a threaded VideoCapture object: Use the Thread module from python:
 import datetime
 from threading import Thread
 import cv2
@@ -19,9 +19,9 @@ import time
 
 
 # # 1.  Class to measure FRames per second as a metric for speed of video capture:
-# class FPS: 
+# class FPS:
 
-#     # Define the constructor: 
+#     # Define the constructor:
 #     def __init__(self):
 # 		# store the start time, end time, and total number of frames
 # 		# that were examined between the start and end intervals
@@ -30,26 +30,26 @@ import time
 # 		self._numFrames = 0
 
 
-#     # Define the methods: 
+#     # Define the methods:
 #     def start(self):
 # 		# start the timer
 # 		self._start = datetime.datetime.now()
 # 		return self
- 
+
 # 	def stop(self):
 # 		# stop the timer
 # 		self._end = datetime.datetime.now()
- 
+
 # 	def update(self):
 # 		# increment the total number of frames examined during the
 # 		# start and end intervals
 # 		self._numFrames += 1
- 
+
 # 	def elapsed(self):
 # 		# return the total number of seconds between the start and
 # 		# end interval
 # 		return (self._end - self._start).total_seconds()
- 
+
 # 	def fps(self):
 # 		# compute the (approximate) frames per second
 # 		return self._numFrames / self.elapsed()
@@ -57,17 +57,17 @@ import time
 
 
 
-# 2. 
+# 2.
 class WebcamVideoStream:
 
      # Constructor:
 	def __init__(self, src=0):
 		# initialize the video camera stream and read the first frame
 		# from the stream
-		self.stream = cv2.VideoCapture(src)
+        self.stream = cv2.VideoCapture(src)
         self.stream.set(cv2.CAP_PROP_FPS, 60)
 		(self.grabbed, self.frame) = self.stream.read()
- 
+
 		# initialize the variable used to indicate if the thread should
 		# be stopped
 		self.stopped = False
@@ -76,21 +76,21 @@ class WebcamVideoStream:
             # start the thread to read frames from the video stream
             Thread(target=self.update, args=()).start()
             return self
-    
+
         def update(self):
             # keep looping infinitely until the thread is stopped
             while True:
                 # if the thread indicator variable is set, stop the thread
                 if self.stopped:
                     return
-    
+
                 # otherwise, read the next frame from the stream
                 (self.grabbed, self.frame) = self.stream.read()
-    
+
         def read(self):
             # return the frame most recently read
             return self.frame
-    
+
         def stop(self):
             # indicate that the thread should be stopped
             self.stopped = True
@@ -117,15 +117,15 @@ def img_publisher():
 
 
 
-    
+
     # loop over some frames...this time using the threaded stream
     while not rospy.is_shutdown():
-        
+
         # grab the frame from the threaded video stream and resize it
         # to have a maximum width of 400 pixels
         frame = vs.read()
 
-    
+
         try:
             pubStart = time.time()
             pub_cam.publish(bridge.cv2_to_imgmsg(frame, "bgr8"))
@@ -152,7 +152,3 @@ if __name__ == '__main__':
 
     except rospy.ROSInterruptException:
         pass
-
-        
- 
-	
