@@ -29,6 +29,7 @@ fps = FPS().start()
 
 # loop over some frames...this time using the threaded stream
 while fps._numFrames < num_frames:
+
 	# grab the frame from the threaded video stream and resize it
 	# to have a maximum width of 400 pixels
 	frame = vs.read()
@@ -47,6 +48,11 @@ while fps._numFrames < num_frames:
 
     # Run the custom Hough Transform:
     custom_hough(img_canny ,  houghVoteThresh, distThresh, segLengthThresh)
+
+	print (" ###  --------------------------------- ###")
+
+	# Now run the Vectorized custom Hough transform just for comparison:
+	custom_hough_vect(img_canny ,  houghVoteThresh, distThresh, segLengthThresh)
 
 
     print ( " ### --------------------------------####  ")
