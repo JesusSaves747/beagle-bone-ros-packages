@@ -83,9 +83,9 @@ def Read_IMU():
         imuData.angular_velocity.z = gyroData[2]
 
 
-        imuData.linear_acceleration.x = accelData[0]
-        imuData.linear_acceleration.y = accelData[1]
-        imuData.linear_acceleration.z = accelData[2]
+        imuData.linear_acceleration.x = accelData[0]*9.80665
+        imuData.linear_acceleration.y = accelData[1]*9.80665
+        imuData.linear_acceleration.z = accelData[2]*9.80665
 
 
         pubIMU.publish(imuData)
